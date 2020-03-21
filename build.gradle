@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+}
+
+group 'dev.vankka'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url 'https://repo.spongepowered.org/maven'}
+}
+
+dependencies {
+    // Config
+    compile 'org.spongepowered:configurate-hocon:3.6'
+
+    // JDA
+    compile ('net.dv8tion:JDA:4.1.1_122') { exclude module: 'opus-java' }
+
+    // JDA Utilities
+    compile 'com.jagrosh:jda-utilities-commons:3.0.2'
+
+    // H2 (DB)
+    compile 'com.h2database:h2:1.4.200'
+
+    // Commons Lang 3
+    compile 'org.apache.commons:commons-lang3:3.9'
+
+    // JSON
+    compile 'org.json:json:20190722'
+
+    // Lombok
+    def lombok = 'org.projectlombok:lombok:1.18.12'
+    compileOnly lombok
+    annotationProcessor lombok
+}
+
+jar {
+    from configurations.compile.collect {
+        it.getName().endsWith('.jar') ? zipTree(it) : it
+    }
+
+    manifest {
+        attributes 'Main-Class': 'dev.vankka.basicsupport.BasicSupport'
+    }
+}
