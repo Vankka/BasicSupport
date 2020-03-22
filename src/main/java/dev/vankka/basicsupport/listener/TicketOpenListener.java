@@ -28,7 +28,7 @@ public class TicketOpenListener extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(@Nonnull GuildMessageReceivedEvent event) {
         if (event.getMessage().getType() == MessageType.CHANNEL_PINNED_ADD && bot.getTickets().stream()
-                .anyMatch(ticket -> ticket.getChannelId().equals(event.getChannel().getId()))) {
+                .anyMatch(ticket -> ticket.getChannelId().equals(event.getChannel().getId())) && event.getAuthor().isBot()) {
             // initial pin message
             event.getMessage().delete().queue();
             return;
